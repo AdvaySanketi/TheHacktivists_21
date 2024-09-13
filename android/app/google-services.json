@@ -1,0 +1,62 @@
+{
+  "project_info": {
+    "project_number": "840528986993",
+    "project_id": "ts-fashion-app",
+    "storage_bucket": "ts-fashion-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:840528986993:android:a5a884b16b1ff121a5ecd0",
+        "android_client_info": {
+          "package_name": "com.example.sling"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "840528986993-0dji0gkovqlr7c1f77qpe0q5iq8h91e1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.sling",
+            "certificate_hash": "b80f06c123dac8079854f5c48f7cc723ba1f5e49"
+          }
+        },
+        {
+          "client_id": "840528986993-931k3tv853alhm8mtbitccubdovpno5r.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.sling",
+            "certificate_hash": "98da07817d62f33de6e95f0fd1a38f5b7dfcccb5"
+          }
+        },
+        {
+          "client_id": "840528986993-5pep56fidk9oqv2079jdsbu9h5h657sj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDKEcWMFcNineMllkNV6gh2jTFy_2z8rH4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "840528986993-5pep56fidk9oqv2079jdsbu9h5h657sj.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "840528986993-444ak7c602qga0rdn8eb53rkfu4vs34g.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.stikcyScrollApp"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

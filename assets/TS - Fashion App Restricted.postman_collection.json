@@ -1,0 +1,434 @@
+{
+	"info": {
+		"_postman_id": "2961f83f-7b7d-453b-a723-489048135965",
+		"name": "TS - Fashion App Restricted",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "33840016",
+		"_collection_link": "https://planetary-resonance-625285.postman.co/workspace/Team-Workspace~3d581d7a-294b-4c44-88fd-ee63d2e3e765/collection/33840016-2961f83f-7b7d-453b-a723-489048135965?action=share&source=collection_link&creator=33840016"
+	},
+	"item": [
+		{
+			"name": "Products",
+			"item": [
+				{
+					"name": "Product Interaction",
+					"item": [
+						{
+							"name": "Product Interaction (Liked)",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/{{version}}/products/:productId/interaction/liked",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"{{version}}",
+										"products",
+										":productId",
+										"interaction",
+										"liked"
+									],
+									"variable": [
+										{
+											"key": "productId",
+											"value": "test"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Product Interaction (Not Liked)",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/{{version}}/products/:productId/interaction/notLiked",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"{{version}}",
+										"products",
+										":productId",
+										"interaction",
+										"notLiked"
+									],
+									"variable": [
+										{
+											"key": "productId",
+											"value": "test"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Product Interaction (addedToCart)",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/{{version}}/products/:productId/interaction/addToCart",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"{{version}}",
+										"products",
+										":productId",
+										"interaction",
+										"addToCart"
+									],
+									"variable": [
+										{
+											"key": "productId",
+											"value": "test"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Get All Products",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/{{version}}/products",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"{{version}}",
+								"products"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get a Product",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/{{version}}/products/:productId",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"{{version}}",
+								"products",
+								":productId"
+							],
+							"variable": [
+								{
+									"key": "productId",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Search Products",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/{{version}}/products/search",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"{{version}}",
+								"products",
+								"search"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Cart",
+			"item": [
+				{
+					"name": "Get Products in cart",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/{{version}}/cart",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"{{version}}",
+								"cart"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Checkout",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/{{version}}/cart/checkout",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"{{version}}",
+								"cart",
+								"checkout"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Orders",
+			"item": [
+				{
+					"name": "Create an Order",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/{{version}}/orders",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"{{version}}",
+								"orders"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all orders",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/{{version}}/orders",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"{{version}}",
+								"orders"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get a order",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/{{version}}/orders/:orderId",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"{{version}}",
+								"orders",
+								":orderId"
+							],
+							"variable": [
+								{
+									"key": "orderId",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Health Check",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/health",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"health"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Success",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/health",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"health"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Security-Policy",
+							"value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+						},
+						{
+							"key": "Cross-Origin-Opener-Policy",
+							"value": "same-origin"
+						},
+						{
+							"key": "Cross-Origin-Resource-Policy",
+							"value": "same-origin"
+						},
+						{
+							"key": "Origin-Agent-Cluster",
+							"value": "?1"
+						},
+						{
+							"key": "Referrer-Policy",
+							"value": "no-referrer"
+						},
+						{
+							"key": "Strict-Transport-Security",
+							"value": "max-age=15552000; includeSubDomains"
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff"
+						},
+						{
+							"key": "X-DNS-Prefetch-Control",
+							"value": "off"
+						},
+						{
+							"key": "X-Download-Options",
+							"value": "noopen"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "SAMEORIGIN"
+						},
+						{
+							"key": "X-Permitted-Cross-Domain-Policies",
+							"value": "none"
+						},
+						{
+							"key": "X-XSS-Protection",
+							"value": "0"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "136"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"88-hEB5ybIfZjDqbzn2TIL3poZmeyU\""
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 27 Mar 2024 16:15:56 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"status\": 200,\n    \"message\": \"Server is running\",\n    \"uptime\": \"4 seconds\",\n    \"date\": \"2024-03-27T16:15:56.850Z\",\n    \"supportEmail\": \"santosh@twospoon.ai\"\n}"
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{token}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "token",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "url",
+			"value": "https://test.api.fashion.twospoon.ai",
+			"type": "string"
+		},
+		{
+			"key": "version",
+			"value": "v1",
+			"type": "string"
+		}
+	]
+}
