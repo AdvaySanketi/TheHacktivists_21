@@ -1,7 +1,7 @@
-import 'package:sling/appTheme.dart';
-import 'package:sling/models/clothing.dart';
-import 'package:sling/screens/view_product_page.dart';
-import 'package:sling/widgets/product_card.dart';
+import 'package:horcrux/appTheme.dart';
+import 'package:horcrux/models/clothing.dart';
+import 'package:horcrux/screens/view_product_page.dart';
+import 'package:horcrux/widgets/product_card.dart';
 import 'package:flutter/material.dart';
 
 class MoreProducts extends StatelessWidget {

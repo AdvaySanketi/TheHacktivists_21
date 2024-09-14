@@ -1,15 +1,15 @@
 {
   "project_info": {
     "project_number": "840528986993",
-    "project_id": "ts-fashion-app",
-    "storage_bucket": "ts-fashion-app.appspot.com"
+    "project_id": "hacktivists-horcrux-app",
+    "storage_bucket": "hacktivists-horcrux-app.appspot.com"
   },
   "client": [
     {
       "client_info": {
         "mobilesdk_app_id": "1:840528986993:android:a5a884b16b1ff121a5ecd0",
         "android_client_info": {
-          "package_name": "com.example.sling"
+          "package_name": "com.example.horcrux"
         }
       },
       "oauth_client": [
@@ -17,7 +17,7 @@
           "client_id": "840528986993-0dji0gkovqlr7c1f77qpe0q5iq8h91e1.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.example.sling",
+            "package_name": "com.example.horcrux",
             "certificate_hash": "b80f06c123dac8079854f5c48f7cc723ba1f5e49"
           }
         },
@@ -25,7 +25,7 @@
           "client_id": "840528986993-931k3tv853alhm8mtbitccubdovpno5r.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.example.sling",
+            "package_name": "com.example.horcrux",
             "certificate_hash": "98da07817d62f33de6e95f0fd1a38f5b7dfcccb5"
           }
         },

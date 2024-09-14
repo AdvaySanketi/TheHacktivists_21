@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:sling/api/APIHelper.dart';
-import 'package:sling/appTheme.dart';
-import 'package:sling/main.dart';
-import 'package:sling/models/clothing.dart';
-import 'package:sling/screens/view_product_page.dart';
+import 'package:horcrux/api/APIHelper.dart';
+import 'package:horcrux/appTheme.dart';
+import 'package:horcrux/main.dart';
+import 'package:horcrux/models/clothing.dart';
+import 'package:horcrux/screens/view_product_page.dart';
 
 class SearchScreen extends StatefulWidget {
   @override
@@ -27,7 +27,7 @@ class _SearchScreenState extends State<SearchScreen>
   Future<void> _fetchTrending() async {
     try {
       List<ClothingItem> clothingProducts;
-      Map<String, dynamic> resp = await APIHelper.getRecommendation();
+      Map<String, dynamic> resp = await APIHelper.getTrending();
       clothingProducts = resp['response'].toList();
       setState(() {
         trendingResults = clothingProducts;
@@ -205,12 +205,10 @@ class _SearchScreenState extends State<SearchScreen>
                           );
                         },
                         child: ProductCard(
-                          imagePath: searchResults[index]["productImage"][0]
-                              ["source"],
-                          dressName: searchResults[index]["title"],
-                          seller: searchResults[index]["shop"][0]["name"],
-                          price:
-                              '₹${searchResults[index]['variants']["price"]}',
+                          imagePath: searchResults[index]["preview"],
+                          dressName: searchResults[index]["name"],
+                          seller: searchResults[index]["vendor"],
+                          price: '₹${searchResults[index]["price"]}',
                         ),
                       );
                     },
@@ -264,7 +262,7 @@ class _SearchScreenState extends State<SearchScreen>
   }
 
   void search(String query) async {
-    List<dynamic> results;
+    List<dynamic> results = [];
     var resp = await APIHelper.getSearch(query);
     results = resp['response'].toList();
 
@@ -304,7 +302,7 @@ class TrendingCard extends StatelessWidget {
                   width: 130,
                   child: ClipRRect(
                     borderRadius: BorderRadius.all(Radius.circular(16.0)),
-                    child: Image.network(
+                    child: Image.asset(
                       imagePath,
                       fit: BoxFit.cover,
                       width: double.infinity,
@@ -380,7 +378,7 @@ class ProductCard extends StatelessWidget {
                   child: ClipRRect(
                     borderRadius: BorderRadius.all(Radius.circular(16.0)),
                     child: imagePath != 'Null'
-                        ? Image.network(
+                        ? Image.asset(
                             imagePath,
                             fit: BoxFit.cover,
                             width: double.infinity,

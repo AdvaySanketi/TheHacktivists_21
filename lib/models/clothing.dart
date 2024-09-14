@@ -8,9 +8,9 @@ class ClothingItem {
   final String name;
   final String price;
   final String seller;
+  final int? quantity;
   final String image;
   final List<String>? images;
-  final String? variant_id;
 
   ClothingItem({
     required this.id,
@@ -19,7 +19,7 @@ class ClothingItem {
     required this.seller,
     required this.image,
     this.images,
-    this.variant_id,
+    this.quantity,
   });
 }
 

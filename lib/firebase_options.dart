@@ -50,9 +50,9 @@ class DefaultFirebaseOptions {
     apiKey: 'AIzaSyBrk8Mb-ASPz6aeLlDQol00wXqZVo90zbE',
     appId: '1:840528986993:web:03095c1cb5200418a5ecd0',
     messagingSenderId: '840528986993',
-    projectId: 'ts-fashion-app',
-    authDomain: 'ts-fashion-app.firebaseapp.com',
-    storageBucket: 'ts-fashion-app.appspot.com',
+    projectId: 'hacktivists-horcrux-app',
+    authDomain: 'hacktivists-horcrux-app.firebaseapp.com',
+    storageBucket: 'hacktivists-horcrux-app.appspot.com',
     measurementId: 'G-5TQXRQQLLJ',
   );
 
@@ -60,18 +60,18 @@ class DefaultFirebaseOptions {
     apiKey: 'AIzaSyDKEcWMFcNineMllkNV6gh2jTFy_2z8rH4',
     appId: '1:840528986993:android:e4aeaa17dd5b65bea5ecd0',
     messagingSenderId: '840528986993',
-    projectId: 'ts-fashion-app',
-    storageBucket: 'ts-fashion-app.appspot.com',
+    projectId: 'hacktivists-horcrux-app',
+    storageBucket: 'hacktivists-horcrux-app.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyB84bSx1imr7d8tM8Usdq6AyPp11UgRJCM',
     appId: '1:840528986993:ios:431886e9eee19b2ea5ecd0',
     messagingSenderId: '840528986993',
-    projectId: 'ts-fashion-app',
-    storageBucket: 'ts-fashion-app.appspot.com',
+    projectId: 'hacktivists-horcrux-app',
+    storageBucket: 'hacktivists-horcrux-app.appspot.com',
     iosClientId:
         '840528986993-io3oleg7l7qcmafqds1kvrfer55f46s2.apps.googleusercontent.com',
-    iosBundleId: 'com.example.pradyun',
+    iosBundleId: 'com.example.horcrux',
   );
 }

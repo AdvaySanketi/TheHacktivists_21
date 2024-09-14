@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:sling/appTheme.dart';
-import 'package:sling/models/clothing.dart';
+import 'package:horcrux/appTheme.dart';
+import 'package:horcrux/models/clothing.dart';
 
 class OrdersScreen extends StatelessWidget {
   @override

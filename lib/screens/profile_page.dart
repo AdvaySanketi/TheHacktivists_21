@@ -1,12 +1,12 @@
 import 'package:firebase_core/firebase_core.dart';
-import 'package:sling/api/APIHelper.dart';
-import 'package:sling/appTheme.dart';
-import 'package:sling/screens/faq_page.dart';
-import 'package:sling/screens/orders_screen.dart';
-import 'package:sling/screens/settings/settings_page.dart';
+import 'package:horcrux/api/APIHelper.dart';
+import 'package:horcrux/appTheme.dart';
+import 'package:horcrux/screens/faq_page.dart';
+import 'package:horcrux/screens/orders_screen.dart';
+import 'package:horcrux/screens/settings/settings_page.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:sling/screens/wishlist_screen.dart';
+import 'package:horcrux/screens/wishlist_screen.dart';
 
 class ProfileScreen extends StatelessWidget {
   @override
@@ -29,14 +29,15 @@ class ProfileScreen extends StatelessWidget {
                   padding: const EdgeInsets.only(
                       bottom: 18.0, left: 8.0, right: 8.0, top: 8.0),
                   child: Text(
-                    FirebaseAuth.instance.currentUser!.displayName!,
+                    // FirebaseAuth.instance.currentUser!.displayName!,
+                    'Advay',
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
                 ),
                 ListTile(
-                  title: Text('Your Wardrobe',
+                  title: Text('Your Wishlist',
                       style: TextStyle(fontWeight: FontWeight.bold)),
-                  subtitle: Text('View and Manage your Liked Clothes'),
+                  subtitle: Text('View and Manage your Liked Products'),
                   leading: Image.asset(
                     'assets/icons/closet.png',
                     fit: BoxFit.scaleDown,

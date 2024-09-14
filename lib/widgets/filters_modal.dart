@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:sling/appTheme.dart';
+import 'package:horcrux/appTheme.dart';
 
 class FiltersModal extends StatefulWidget {
   const FiltersModal({Key? key}) : super(key: key);

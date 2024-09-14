@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:sling/appTheme.dart';
+import 'package:horcrux/appTheme.dart';
 
 class FaqPage extends StatefulWidget {
   @override
@@ -11,32 +11,27 @@ class _FaqPageState extends State<FaqPage> {
   List<Panel> panels = [
     Panel(
       'How does the swiping feature work in the app?',
-      'In the app, you can swipe right to like a clothing item, swipe left to dislike it, and swipe up to add it to your cart.',
+      'In the app, you can swipe right to like a product, swipe left to dislike it, and swipe up to add it to your cart.',
       false,
     ),
     Panel(
       'Can I undo a swipe action?',
-      'Yes you can undo a swipe action, by pressing the rewind button on the top-left corner of the Home Screen.',
+      'Yes, you can undo a swipe action by pressing the rewind button on the top-left corner of the Home Screen.',
       false,
     ),
     Panel(
-      'What happens when I like a clothing item?',
-      'When you swipe right to like a clothing item, it will be added to your Closet which you can find in your profile.',
+      'What happens when I like a product?',
+      'When you swipe right to like a product, it will be added to your Wishlist, which you can find in your profile.',
       false,
     ),
     Panel(
-      'How do I remove a clothing item from my closet?',
-      'To remove a clothing item from your closet, Long press on the item you want to delete and once the item has been selected click on the delete icon.',
+      'How do I remove a product from my wishlist?',
+      'To remove a product from your wishlist, click on the item you want to delete and click on the heart icon.',
       false,
     ),
     Panel(
       'Will my swiping activity be used to personalize recommendations?',
-      'Yes, your swiping activity helps the app personalize clothing recommendations based on your preferences.',
-      false,
-    ),
-    Panel(
-      'Can I see the clothes I have swiped left or right on?',
-      'Yes, you can view your swiping history and revisit clothing items you have liked or disliked in the past.',
+      'Yes, your swiping activity helps the app personalize product recommendations based on your preferences.',
       false,
     ),
   ];

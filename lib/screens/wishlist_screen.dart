@@ -1,10 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:sling/api/APIHelper.dart';
-import 'package:sling/appTheme.dart';
-import 'package:sling/models/clothing.dart';
-import 'package:sling/screens/view_product_page.dart';
+import 'package:horcrux/api/APIHelper.dart';
+import 'package:horcrux/appTheme.dart';
+import 'package:horcrux/models/clothing.dart';
+import 'package:horcrux/screens/view_product_page.dart';
 
 class WishlistScreen extends StatefulWidget {
   WishlistScreen();
@@ -41,7 +41,8 @@ class _WishlistScreenState extends State<WishlistScreen> {
         backgroundColor: Colors.white,
         appBar: AppBar(
           title: Text(
-              '${FirebaseAuth.instance.currentUser!.displayName!.split(' ')[0]}\'s Wardrobe'),
+              // '${FirebaseAuth.instance.currentUser!.displayName!.split(' ')[0]}\'s Wishlist'),
+              "Advay's Wishlist"),
           centerTitle: true,
         ),
         body: wishlistResults.isEmpty
@@ -63,7 +64,7 @@ class _WishlistScreenState extends State<WishlistScreen> {
                     ),
                     SizedBox(height: 8.0),
                     Text(
-                      "Try liking some wishlistResults.",
+                      "Try liking some products.",
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         color: Colors.grey,
@@ -103,17 +104,15 @@ class _WishlistScreenState extends State<WishlistScreen> {
                                       MaterialPageRoute(
                                         builder: (_) => ViewProductPage(
                                           product: ClothingItem(
-                                              id: wishlistResults[index]
-                                                  ['product_id'],
-                                              name: wishlistResults[index]
-                                                  ['title'],
+                                              id: wishlistResults[index].id,
+                                              name: wishlistResults[index].name,
                                               price: '0',
-                                              seller: wishlistResults[index]
-                                                  ['seller_name'],
-                                              image: wishlistResults[index]
-                                                  ['url'],
+                                              seller:
+                                                  wishlistResults[index].seller,
+                                              image:
+                                                  wishlistResults[index].image,
                                               images: [
-                                                wishlistResults[index]['url']
+                                                wishlistResults[index].image
                                               ]),
                                         ),
                                       ),
@@ -125,12 +124,12 @@ class _WishlistScreenState extends State<WishlistScreen> {
                                         children: [
                                           Positioned.fill(
                                             child: WishlistCard(
-                                              dressName: wishlistResults[index]
-                                                  ['title'],
-                                              imagePath: wishlistResults[index]
-                                                  ['url'],
-                                              seller: wishlistResults[index]
-                                                  ['seller_name'],
+                                              dressName:
+                                                  wishlistResults[index].name,
+                                              imagePath:
+                                                  wishlistResults[index].image,
+                                              seller:
+                                                  wishlistResults[index].seller,
                                             ),
                                           ),
                                         ],
@@ -167,7 +166,7 @@ class WishlistCard extends StatelessWidget {
               width: 150,
               child: ClipRRect(
                 borderRadius: BorderRadius.all(Radius.circular(16.0)),
-                child: Image.network(
+                child: Image.asset(
                   imagePath,
                   fit: BoxFit.cover,
                   width: double.infinity,

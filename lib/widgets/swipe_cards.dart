@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:sling/api/APIHelper.dart';
-import 'package:sling/api/APIMode.dart';
-import 'package:sling/screens/view_product_page.dart';
+import 'package:horcrux/api/APIHelper.dart';
+import 'package:horcrux/screens/view_product_page.dart';
 import 'package:swipe_cards/draggable_card.dart';
 import 'package:swipe_cards/swipe_cards.dart';
-import 'package:sling/models/clothing.dart';
+import 'package:horcrux/models/clothing.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 typedef VoidCallback = void Function();
@@ -27,7 +26,7 @@ class _SwipeCardsState extends State<SwipeCardsWidget> {
   List<SwipeItem> _swipeItems = <SwipeItem>[];
   MatchEngine? _matchEngine = MatchEngine(swipeItems: []);
   bool _matchEngineReady = false;
-  bool _apiMode = apiMode;
+  bool _apiMode = true;
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
 
   late FToast fToast;
@@ -92,14 +91,13 @@ class _SwipeCardsState extends State<SwipeCardsWidget> {
         if (_apiMode) {
           var resp = await APIHelper.getProduct(clothingProducts[i].id!);
           List<dynamic> results = resp['response'].toList();
-          clothingProducts[i].variants = results[0]['variants'];
         }
         _swipeItems.add(SwipeItem(
           content: clothingProducts[i],
           likeAction: () async {
-            bool resp = await APIHelper.postInteraction(
-                clothingProducts[i].id!, InteractionType.LIKE);
-            if (resp) {
+            dynamic resp = await APIHelper.postInteraction(
+                clothingProducts[i].id!, 'LIKE');
+            if (resp['success']) {
               _showToast("Liked ${clothingProducts[i].name}",
                   Icons.thumb_up_alt, Colors.green);
             } else {
@@ -108,9 +106,9 @@ class _SwipeCardsState extends State<SwipeCardsWidget> {
             }
           },
           nopeAction: () async {
-            bool resp = await APIHelper.postInteraction(
-                clothingProducts[i].id!, InteractionType.DISLIKE);
-            if (resp) {
+            dynamic resp = await APIHelper.postInteraction(
+                clothingProducts[i].id!, 'DISLIKE');
+            if (resp['success']) {
               _showToast("Disliked ${clothingProducts[i].name}",
                   Icons.thumb_down_alt, Colors.red);
             } else {
@@ -119,12 +117,12 @@ class _SwipeCardsState extends State<SwipeCardsWidget> {
             }
           },
           superlikeAction: () async {
-            bool resp = await APIHelper.postInteraction(
-                clothingProducts[i].id!, InteractionType.ADDTOCART);
-            if (resp) {
+            dynamic resp = await APIHelper.postInteraction(
+                clothingProducts[i].id!, 'ADDTOCART');
+            if (resp['success']) {
               if (_apiMode) {
-                await APIHelper.addToCart(clothingProducts[i].id!,
-                    clothingProducts[i].variants!['id'], 1);
+                await APIHelper.addToCart(
+                    clothingProducts[i].id!, clothingProducts[i].id, 1);
               }
               _showToast("${clothingProducts[i].name} added to Cart",
                   Icons.shopping_cart, Colors.blue);
@@ -191,7 +189,6 @@ class _SwipeCardsState extends State<SwipeCardsWidget> {
                                 context,
                                 MaterialPageRoute(
                                   builder: (_) => ViewProductPage(
-                                    isSearch: false,
                                     product: _swipeItems[index].content,
                                   ),
                                 ),

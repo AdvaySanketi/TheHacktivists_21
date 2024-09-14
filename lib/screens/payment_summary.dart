@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:sling/api/APIHelper.dart';
-import 'package:sling/appTheme.dart';
-import 'package:sling/models/clothing.dart';
-import 'package:razorpay_flutter/razorpay_flutter.dart';
-import 'package:sling/screens/order_success.dart';
+import 'package:horcrux/api/APIHelper.dart';
+import 'package:horcrux/appTheme.dart';
+import 'package:horcrux/models/clothing.dart';
+import 'package:horcrux/screens/order_success.dart';
 
 class PaymentSummaryScreen extends StatefulWidget {
-  final String address_id;
   final String address;
   final String city_state;
   final String zipCode;
@@ -15,7 +13,6 @@ class PaymentSummaryScreen extends StatefulWidget {
 
   const PaymentSummaryScreen(
       {Key? key,
-      required this.address_id,
       required this.address,
       required this.city_state,
       required this.zipCode,
@@ -29,17 +26,15 @@ class PaymentSummaryScreen extends StatefulWidget {
 
 class _PaymentSummaryScreenState extends State<PaymentSummaryScreen> {
   double totalPrice = 0.0;
-  Razorpay razorpay = Razorpay();
+  List<dynamic> cart = [];
 
   @override
   void initState() {
     super.initState();
-    razorpay.on(Razorpay.eventExternalWallet, handlerExternalWallet);
-    razorpay.on(Razorpay.eventPaymentSuccess, handlerPaymentSuccess);
-    razorpay.on(Razorpay.eventPaymentError, handlerError);
     setState(() {
-      for (Map<String, dynamic> item in widget.cart) {
-        totalPrice += double.parse(item['selected_variant'][0]['price']);
+      cart = widget.cart;
+      for (ClothingItem item in cart) {
+        totalPrice += double.parse(item.price);
       }
     });
   }
@@ -47,71 +42,6 @@ class _PaymentSummaryScreenState extends State<PaymentSummaryScreen> {
   @override
   void dispose() {
     super.dispose();
-    razorpay.clear();
-  }
-
-  void handlePayment() async {
-    //TODO update with actual billing address
-    Map<String, dynamic> resp =
-        await APIHelper.createOrder("661409663abf27dd3c711f16");
-    openCheckout(resp["response"]["order_id"], resp["response"]["amount"]);
-  }
-
-  void openCheckout(String order_id, int amount) {
-    var options = {
-      "key": "rzp_test_OnyJBCDukNk4bJ",
-      "order_id": order_id,
-      "amount": amount,
-      // "name": "Sample App",
-      // "description": "Payment for the product",
-      // "prefill": {
-      //   "contact": "8618950413", //"9513388379",
-      //   "email": "smaran.jawalkar@gmail.com",
-      // },
-      "external": {
-        "wallets": ["paytm"]
-      }
-    };
-
-    try {
-      razorpay.open(options);
-    } catch (e) {
-      print("RAZORPAY ERROR");
-      print(e.toString());
-    }
-  }
-
-  void handlerError(PaymentFailureResponse response) {
-    showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            title: Text("Payment failed"),
-            content: Text(
-                "Transaction failed. Please try again\nError: ${response.message}"),
-            actions: [
-              TextButton(
-                child: Text("OK"),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              )
-            ],
-          );
-        });
-    print('Payment error');
-  }
-
-  void handlerExternalWallet(ExternalWalletResponse response) {
-    print('External Wallet');
-  }
-
-  void handlerPaymentSuccess(PaymentSuccessResponse response) async {
-    var resp = APIHelper.verifyOrder(
-        response.paymentId!, response.orderId!, response.signature!);
-    print(resp);
-    Navigator.of(context)
-        .push(MaterialPageRoute(builder: (context) => OrderSuccess()));
   }
 
   @override
@@ -160,7 +90,7 @@ class _PaymentSummaryScreenState extends State<PaymentSummaryScreen> {
                                 ]),
                             ListView.builder(
                               shrinkWrap: true,
-                              itemCount: widget.cart.length,
+                              itemCount: cart.length,
                               itemBuilder: (BuildContext context, int index) {
                                 return Row(
                                   mainAxisAlignment:
@@ -168,7 +98,7 @@ class _PaymentSummaryScreenState extends State<PaymentSummaryScreen> {
                                   children: [
                                     Expanded(
                                       child: Text(
-                                        widget.cart[index]['title'],
+                                        cart[index].name,
                                         style: TextStyle(
                                           fontSize: 14.0,
                                           fontWeight: FontWeight.w500,
@@ -179,7 +109,7 @@ class _PaymentSummaryScreenState extends State<PaymentSummaryScreen> {
                                       ),
                                     ),
                                     Text(
-                                      '₹${widget.cart[index]['selected_variant'][0]['price']}',
+                                      '₹${cart[index].price}',
                                       softWrap: true,
                                       textAlign: TextAlign.right,
                                       style: TextStyle(
@@ -213,37 +143,37 @@ class _PaymentSummaryScreenState extends State<PaymentSummaryScreen> {
                                         color: Colors.grey[600]),
                                   ),
                                 ]),
-                            // ListView.builder(
-                            //   shrinkWrap: true,
-                            //   itemCount: widget.cart.length,
-                            //   itemBuilder: (BuildContext context, int index) {
-                            //     return Row(
-                            //       mainAxisAlignment:
-                            //           MainAxisAlignment.spaceBetween,
-                            //       children: [
-                            //         Expanded(
-                            //           child: Text(
-                            //             widget.cart[index]['shop'][0]['name'],
-                            //             style: TextStyle(
-                            //               fontSize: 14.0,
-                            //               fontWeight: FontWeight.w500,
-                            //               color: Colors.grey[700],
-                            //             ),
-                            //           ),
-                            //         ),
-                            //         Text(
-                            //           '₹${(index+1) * 7}',
-                            //           softWrap: true,
-                            //           textAlign: TextAlign.right,
-                            //           style: TextStyle(
-                            //             fontSize: 12.0,
-                            //             color: Colors.grey[600],
-                            //           ),
-                            //         ),
-                            //       ],
-                            //     );
-                            //   },
-                            // )
+                            ListView.builder(
+                              shrinkWrap: true,
+                              itemCount: cart.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                return Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Expanded(
+                                      child: Text(
+                                        cart[index].seller,
+                                        style: TextStyle(
+                                          fontSize: 14.0,
+                                          fontWeight: FontWeight.w500,
+                                          color: Colors.grey[700],
+                                        ),
+                                      ),
+                                    ),
+                                    Text(
+                                      '₹${(index + 1) * 7}',
+                                      softWrap: true,
+                                      textAlign: TextAlign.right,
+                                      style: TextStyle(
+                                        fontSize: 12.0,
+                                        color: Colors.grey[600],
+                                      ),
+                                    ),
+                                  ],
+                                );
+                              },
+                            )
                           ]),
                           SizedBox(
                             height: 10,
@@ -391,21 +321,19 @@ class _PaymentSummaryScreenState extends State<PaymentSummaryScreen> {
                     Expanded(
                       child: ElevatedButton(
                         onPressed: () async {
-                          var resp =
-                              await APIHelper.createOrder(widget.address_id);
-                          if (resp['success'] == true) {
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                  builder: (_) => OrderSuccessScreen(
-                                      address: widget.address,
-                                      city_state: widget.city_state,
-                                      zipCode: widget.zipCode,
-                                      name: widget.name,
-                                      cart: widget.cart)),
-                            );
-                            openCheckout(resp["response"]["order_id"],
-                                resp["response"]["amount"]);
-                          }
+                          // var resp =
+                          //     await APIHelper.createOrder(widget.address_id);
+                          // if (resp['success'] == true) {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                                builder: (_) => OrderSuccessScreen(
+                                    address: widget.address,
+                                    city_state: widget.city_state,
+                                    zipCode: widget.zipCode,
+                                    name: widget.name,
+                                    cart: cart)),
+                          );
+                          // }
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: appBlack,

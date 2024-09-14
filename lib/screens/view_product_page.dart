@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:sling/api/APIHelper.dart';
-import 'package:sling/appTheme.dart';
-import 'package:sling/models/clothing.dart';
-import 'package:sling/widgets/more_products.dart';
+import 'package:horcrux/api/APIHelper.dart';
+import 'package:horcrux/appTheme.dart';
+import 'package:horcrux/models/clothing.dart';
+import 'package:horcrux/widgets/more_products.dart';
 import 'package:input_quantity/input_quantity.dart';
 
 class ViewProductPage extends StatefulWidget {
@@ -44,57 +44,16 @@ class _ViewProductPageState extends State<ViewProductPage> {
 
   void getProduct(String product_id) async {
     var resp = await APIHelper.getProduct(product_id);
-    List<dynamic> results = resp['response'].toList();
+    Map<String, dynamic> results = resp['response'];
     setState(() {
-      desc = results[0]['body'];
+      desc = results['desc'];
 
-      variants = results[0]['variants'];
+      // images = results[0]['images'];
 
-      images = results[0]['productImages'];
+      quantity = results['quantity'];
 
-      liked = results[0]['isInWishList'];
-
-      if (variants.length > 1) {
-        options = results[0]['options'];
-      }
-
-      _dropdownValues =
-          List.generate(options.length, (index) => options[index]['values'][0]);
-
-      _findVariant(_dropdownValues, variants);
+      liked = results['isInWishlist'];
     });
-  }
-
-  void _findVariant(List<String> _dropdownValues, List<dynamic> variants) {
-    for (var variant in variants) {
-      bool match = true;
-      for (int index = 0; index < _dropdownValues.length; index++) {
-        String optionKey = 'option${index + 1}';
-        if (variant[optionKey] != _dropdownValues[index]) {
-          match = false;
-          break;
-        }
-      }
-      if (match) {
-        setState(() {
-          _selectedVariant = variant['id'];
-          quantity = variant['inventoryQuantity'];
-
-          if (quantity == 0) {
-            cartText = "Item Sold Out";
-          } else if (quantity < _currentQuantity) {
-            _currentQuantity = quantity;
-          }
-
-          price = variant['price'];
-          if (variant['variant_image'] != null) {
-            images!.remove(variant['variant_image']);
-            images!.insert(0, variant['variant_image']);
-          }
-        });
-        resetCarousel();
-      }
-    }
   }
 
   void resetCarousel() {
@@ -113,7 +72,7 @@ class _ViewProductPageState extends State<ViewProductPage> {
         });
       },
       child: Padding(
-        padding: EdgeInsets.only(top: 15.0, bottom: 15.0),
+        padding: EdgeInsets.only(top: 15.0, bottom: 5.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -174,7 +133,7 @@ class _ViewProductPageState extends State<ViewProductPage> {
                               decoration: BoxDecoration(
                                 color: Colors.grey,
                                 image: DecorationImage(
-                                  image: NetworkImage(image),
+                                  image: AssetImage(image),
                                   fit: BoxFit.cover,
                                 ),
                               ),
@@ -264,11 +223,10 @@ class _ViewProductPageState extends State<ViewProductPage> {
                                 RawMaterialButton(
                                   onPressed: () async {
                                     if (!liked) {
-                                      bool resp =
+                                      Map<String, dynamic> resp =
                                           await APIHelper.postInteraction(
-                                              widget.product.id,
-                                              InteractionType.LIKE);
-                                      if (resp) {
+                                              widget.product.id, 'LIKE');
+                                      if (resp['success']) {
                                         setState(() {
                                           liked = true;
                                         });
@@ -319,54 +277,8 @@ class _ViewProductPageState extends State<ViewProductPage> {
                             : SizedBox(
                                 height: 15,
                               ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: List.generate(
-                            options.length,
-                            (index) => Row(
-                              children: [
-                                Text(
-                                  '${options[index]['name']}  ',
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 16,
-                                  ),
-                                ),
-                                Container(
-                                  padding: EdgeInsets.symmetric(horizontal: 12),
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(8),
-                                    border: Border.all(color: Colors.grey),
-                                  ),
-                                  child: DropdownButton<String>(
-                                    value: _dropdownValues[index],
-                                    onChanged: (String? newValue) {
-                                      setState(() {
-                                        _dropdownValues[index] = newValue!;
-                                      });
-                                      _findVariant(_dropdownValues, variants);
-                                    },
-                                    items: options[index]['values']
-                                        .map<DropdownMenuItem<String>>(
-                                          (value) => DropdownMenuItem<String>(
-                                            value: value,
-                                            child: Text(value),
-                                          ),
-                                        )
-                                        .toList(),
-                                    underline: SizedBox(),
-                                    icon: Icon(Icons.keyboard_arrow_down),
-                                    iconSize: 24,
-                                    elevation: 16,
-                                    style: TextStyle(color: appBlack),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
                         Padding(
-                            padding: EdgeInsets.only(top: 15.0, left: 10.0),
+                            padding: EdgeInsets.only(top: 15.0),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
