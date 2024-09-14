@@ -1,4 +1,4 @@
-package com.example.sling
+package com.example.horcrux
 
 import io.flutter.embedding.android.FlutterActivity
 

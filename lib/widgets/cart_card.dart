@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:sling/api/APIHelper.dart';
-import 'package:sling/appTheme.dart';
-import 'package:sling/screens/cart_screen.dart';
+import 'package:horcrux/api/APIHelper.dart';
+import 'package:horcrux/appTheme.dart';
+import 'package:horcrux/screens/cart_screen.dart';
 
 class CardItem extends StatelessWidget {
   final String id;
@@ -195,7 +195,7 @@ class SliderCard extends StatelessWidget {
           children: [
             ClipRRect(
               borderRadius: BorderRadius.circular(8),
-              child: Image.network(
+              child: Image.asset(
                 image,
                 width: 120,
                 height: 140,

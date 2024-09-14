@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:sling/appTheme.dart';
+import 'package:horcrux/appTheme.dart';
 
 class ChangeLanguagePage extends StatefulWidget {
   @override

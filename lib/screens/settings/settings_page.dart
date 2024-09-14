@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:sling/appTheme.dart';
-import 'package:sling/main.dart';
-import 'package:sling/screens/login_screen.dart';
+import 'package:horcrux/appTheme.dart';
+import 'package:horcrux/main.dart';
+import 'package:horcrux/screens/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 

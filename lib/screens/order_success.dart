@@ -1,10 +1,11 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:sling/api/APIHelper.dart';
-import 'package:sling/appTheme.dart';
-import 'package:sling/main.dart';
-import 'package:sling/widgets/cart_card.dart';
+import 'package:horcrux/api/APIHelper.dart';
+import 'package:horcrux/appTheme.dart';
+import 'package:horcrux/main.dart';
+import 'package:horcrux/models/clothing.dart';
+import 'package:horcrux/widgets/cart_card.dart';
 import 'package:intl/intl.dart';
 
 class OrderSuccessScreen extends StatefulWidget {
@@ -36,8 +37,8 @@ class _OrderSuccessScreenState extends State<OrderSuccessScreen> {
   @override
   void initState() {
     setState(() {
-      for (Map<String, dynamic> item in widget.cart) {
-        totalPrice += double.parse(item['selected_variant'][0]['price']);
+      for (ClothingItem item in widget.cart) {
+        totalPrice += double.parse(item.price);
       }
     });
     super.initState();
@@ -60,7 +61,7 @@ class _OrderSuccessScreenState extends State<OrderSuccessScreen> {
           children: [
             SizedBox(height: 50),
             Text(
-              'Sling',
+              'Swipe',
               style: TextStyle(
                 fontSize: 60,
                 fontWeight: FontWeight.bold,
@@ -84,8 +85,7 @@ class _OrderSuccessScreenState extends State<OrderSuccessScreen> {
                   SizedBox(
                     height: 12,
                   ),
-                  Text(
-                      '${FirebaseAuth.instance.currentUser!.displayName!}, Thank you for your order!',
+                  Text('${widget.name}, Thank you for your order!',
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w500,
@@ -138,10 +138,10 @@ class _OrderSuccessScreenState extends State<OrderSuccessScreen> {
                 return Builder(
                   builder: (BuildContext context) {
                     return SliderCard(
-                      name: item['title'],
-                      quantity: item['quantity'],
-                      price: item['allVariants'][0]['price'],
-                      image: item['product_preview'][0],
+                      name: item.name,
+                      quantity: item.quantity,
+                      price: item.price,
+                      image: item.image,
                     );
                   },
                 );

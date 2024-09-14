@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:input_quantity/input_quantity.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
-import 'package:sling/api/APIHelper.dart';
-import 'package:sling/appTheme.dart';
-import 'package:sling/models/cart.dart';
-import 'package:sling/models/clothing.dart';
-import 'package:sling/screens/order_review_screen.dart';
-import 'package:sling/screens/view_product_page.dart';
-import 'package:sling/widgets/cart_card.dart';
+import 'package:horcrux/api/APIHelper.dart';
+import 'package:horcrux/appTheme.dart';
+import 'package:horcrux/models/cart.dart';
+import 'package:horcrux/models/clothing.dart';
+import 'package:horcrux/screens/order_review_screen.dart';
+import 'package:horcrux/screens/view_product_page.dart';
+import 'package:horcrux/widgets/cart_card.dart';
 
 class CartScreen extends StatefulWidget {
   @override
@@ -17,10 +17,7 @@ class CartScreen extends StatefulWidget {
 class CartScreenState extends State<CartScreen> {
   List<dynamic> results = [];
   double totalPrice = 0;
-  List<List<dynamic>> options = [];
-  List<List<dynamic>> variants = [];
   bool isLoading = true;
-  List<List<String>> dropdownValues = [];
   List<int> quantity = [];
   List<int> maxQuantity = [];
 
@@ -37,65 +34,29 @@ class CartScreenState extends State<CartScreen> {
         results = resp['response'].toList();
         totalPrice = 0;
       });
-      variants = [];
-      options = [];
       quantity = [];
       maxQuantity = [];
-      for (Map<String, dynamic> item in results) {
-        totalPrice += item['quantity'] *
-            double.parse(item['selected_variant'][0]['price']);
-        variants.add(item['allVariants']);
-        options.add(item['options']);
-        quantity.add(item['quantity']);
-        maxQuantity.add(item['inventoryQuantity']);
+      for (ClothingItem item in results) {
+        totalPrice += 1 * double.parse(item.price);
+        quantity.add(1);
+        maxQuantity.add(item.quantity!);
       }
-      dropdownValues = List.generate(
-          options.length,
-          (index1) => List.generate(
-              options[index1].length,
-              (index2) => results[index1]['selected_variant'][0]['title']
-                  .split(' / ')[index2]));
       setState(() {
         isLoading = false;
       });
       cartAvailable = true;
       localResults = results;
       localTotalPrice = totalPrice;
-      localOptions = options;
-      localVariants = variants;
-      localDropdownValues = dropdownValues;
       localQuantity = quantity;
       localMaxQuantity = maxQuantity;
     } else {
       setState(() {
         results = localResults;
         totalPrice = localTotalPrice;
-        variants = localVariants;
-        options = localOptions;
-        dropdownValues = localDropdownValues;
         quantity = localQuantity;
         maxQuantity = localMaxQuantity;
       });
       getCart(true);
-    }
-  }
-
-  void _updateCartVariant(
-      List<String> _dropdownValues, List<dynamic> variants, String id) async {
-    for (var variant in variants) {
-      bool match = true;
-      for (int index = 0; index < _dropdownValues.length; index++) {
-        String optionKey = 'option${index + 1}';
-        if (variant[optionKey] != _dropdownValues[index]) {
-          match = false;
-          break;
-        }
-      }
-      if (match) {
-        print(variant['title']);
-        var resp = await APIHelper.updateCart(id, variant['id']);
-        print(resp['response']);
-      }
     }
   }
 
@@ -113,6 +74,7 @@ class CartScreenState extends State<CartScreen> {
           width: 0,
         ),
         leadingWidth: 0.0,
+        backgroundColor: Colors.white,
         title: Center(
           child: Text(
             'My Cart',
@@ -160,17 +122,14 @@ class CartScreenState extends State<CartScreen> {
                   itemBuilder: (context, index) {
                     return Column(children: [
                       _buildCard(
-                          id: results[index]['_id'],
-                          product_id: results[index]['product_id'],
-                          name: results[index]['title'],
-                          seller: results[index]['shop'][0]['name'],
-                          price: results[index]['selected_variant'][0]['price'],
-                          image: results[index]['product_preview'][0],
-                          quantity: quantity[index],
-                          maxQuantity: maxQuantity[index],
-                          options: options[index],
-                          variants: variants[index],
-                          dropdownValues: dropdownValues[index]),
+                        product_id: results[index].id,
+                        name: results[index].name,
+                        seller: results[index].seller,
+                        price: results[index].price,
+                        image: results[index].image,
+                        quantity: quantity[index],
+                        maxQuantity: maxQuantity[index],
+                      ),
                       Padding(
                         padding: EdgeInsets.only(left: 20, right: 20),
                         child: Divider(
@@ -240,18 +199,15 @@ class CartScreenState extends State<CartScreen> {
     );
   }
 
-  Widget _buildCard(
-      {required String id,
-      required String product_id,
-      required String image,
-      required String name,
-      required String seller,
-      required String price,
-      required int quantity,
-      required int maxQuantity,
-      required List<dynamic> options,
-      required List<dynamic> variants,
-      required List<String> dropdownValues}) {
+  Widget _buildCard({
+    required String product_id,
+    required String image,
+    required String name,
+    required String seller,
+    required String price,
+    required int quantity,
+    required int maxQuantity,
+  }) {
     return GestureDetector(
         onTap: () {
           Navigator.push(
@@ -280,10 +236,10 @@ class CartScreenState extends State<CartScreen> {
               children: [
                 ClipRRect(
                   borderRadius: BorderRadius.circular(15),
-                  child: Image.network(
+                  child: Image.asset(
                     image,
                     width: 120,
-                    height: 190,
+                    height: 120,
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -305,48 +261,6 @@ class CartScreenState extends State<CartScreen> {
                       ),
                       SizedBox(height: 5),
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: List.generate(
-                          options.length,
-                          (index) => Container(
-                            padding: EdgeInsets.only(left: 10, right: 10),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              border: Border.all(color: Colors.grey),
-                            ),
-                            child: DropdownButton<String>(
-                              value: dropdownValues[index],
-                              onChanged: (String? newValue) {
-                                setState(() {
-                                  dropdownValues[index] = newValue!;
-                                });
-                                _updateCartVariant(
-                                    dropdownValues, variants, id);
-                                getCart(true);
-                              },
-                              items: options[index]['values']
-                                  .map<DropdownMenuItem<String>>(
-                                    (value) => DropdownMenuItem<String>(
-                                      value: value,
-                                      child: Text(
-                                        value,
-                                        style: TextStyle(fontSize: 12),
-                                      ),
-                                    ),
-                                  )
-                                  .toList(),
-                              dropdownColor: Colors.white,
-                              underline: SizedBox(),
-                              icon: Icon(Icons.keyboard_arrow_down_outlined),
-                              iconSize: 20,
-                              elevation: 16,
-                              style: TextStyle(color: appBlack),
-                            ),
-                          ),
-                        ),
-                      ),
-                      SizedBox(height: 5),
-                      Row(
                         children: [
                           InputQty(
                             decoration: QtyDecorationProps(
@@ -363,7 +277,7 @@ class CartScreenState extends State<CartScreen> {
                               setState(() {
                                 quantity = val.toInt();
                               });
-                              _updateCartQuantity(id, quantity);
+                              _updateCartQuantity(product_id, quantity);
                               getCart(true);
                             },
                             qtyFormProps: QtyFormProps(enableTyping: false),
@@ -382,7 +296,7 @@ class CartScreenState extends State<CartScreen> {
                               icon: Icon(Icons.delete_outline,
                                   color: Colors.grey),
                               onPressed: () async {
-                                await APIHelper.deleteFromCart(id);
+                                await APIHelper.deleteFromCart(product_id);
                                 getCart(true);
                               },
                             ),

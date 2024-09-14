@@ -3,14 +3,13 @@ import 'dart:ui';
 import 'dart:isolate';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:sling/models/cart.dart';
-import 'package:sling/screens/login_screen.dart';
-import 'package:sling/screens/cart_screen.dart';
-import 'package:sling/screens/onboarding.dart';
-import 'package:sling/screens/profile_page.dart';
-import 'package:sling/screens/search_screen.dart';
-import 'package:sling/screens/home_page.dart';
-import 'package:sling/appTheme.dart';
+import 'package:horcrux/models/cart.dart';
+import 'package:horcrux/screens/login_screen.dart';
+import 'package:horcrux/screens/cart_screen.dart';
+import 'package:horcrux/screens/profile_page.dart';
+import 'package:horcrux/screens/search_screen.dart';
+import 'package:horcrux/screens/home_page.dart';
+import 'package:horcrux/appTheme.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -20,7 +19,7 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:firebase_ui_oauth_google/firebase_ui_oauth_google.dart';
 import 'package:firebase_auth/firebase_auth.dart' hide EmailAuthProvider;
 import 'package:firebase_ui_auth/firebase_ui_auth.dart' as FB;
-import 'package:sling/firebase_options.dart';
+import 'package:horcrux/firebase_options.dart';
 
 class MainApp extends StatefulWidget {
   @override
@@ -50,11 +49,6 @@ class _MainAppState extends State<MainApp> {
     super.initState();
     // loadCartNum();
   }
-
-  // void loadCartNum() async {
-  //   cartNum = await CartService.getCartNum();
-  //   setState(() {});
-  // }
 
   void _onItemTapped(int index) {
     setState(() {
@@ -136,15 +130,6 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  // Pass all uncaught "fatal" errors from the framework to Crashlytics
-  FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
-
-  // Pass all uncaught asynchronous errors that aren't handled by the Flutter framework to Crashlytics
-  PlatformDispatcher.instance.onError = (error, stack) {
-    FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
-    return true;
-  };
-
   FB.FirebaseUIAuth.configureProviders([
     GoogleProvider(
         clientId:
@@ -152,7 +137,7 @@ void main() async {
   ]);
 
   runApp(MaterialApp(
-    title: 'Sling',
+    title: 'Swipe',
     debugShowCheckedModeBanner: false,
     home: FutureBuilder<bool>(
       future: AuthService.isLoggedIn(),

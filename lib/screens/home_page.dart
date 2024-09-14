@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:sling/api/APIHelper.dart';
-import 'package:sling/appTheme.dart';
-import 'package:sling/main.dart';
-import 'package:sling/models/address.dart';
-import 'package:sling/models/cart.dart';
-import 'package:sling/screens/view_product_page.dart';
-import 'package:sling/widgets/filters_modal.dart';
+import 'package:horcrux/api/APIHelper.dart';
+import 'package:horcrux/appTheme.dart';
+import 'package:horcrux/main.dart';
+import 'package:horcrux/models/cart.dart';
+import 'package:horcrux/screens/view_product_page.dart';
+import 'package:horcrux/widgets/filters_modal.dart';
 import 'package:swipe_cards/draggable_card.dart';
 import 'package:swipe_cards/swipe_cards.dart';
-import 'package:sling/models/clothing.dart';
+import 'package:horcrux/models/clothing.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -96,6 +95,7 @@ class _HomeScreenState extends State<HomeScreen> {
     try {
       if (recResults.isEmpty || reload) {
         Map<String, dynamic> resp = await APIHelper.getRecommendation();
+        print(resp);
         List<ClothingItem> clothingProducts = resp['response'].toList();
         if (clothingProducts.isEmpty) {
           setState(() {
@@ -112,9 +112,9 @@ class _HomeScreenState extends State<HomeScreen> {
             _swipeItems.add(SwipeItem(
               content: clothingProducts[i],
               likeAction: () async {
-                bool resp = await APIHelper.postInteraction(
-                    clothingProducts[i].id, InteractionType.LIKE);
-                if (resp) {
+                Map<String, dynamic> resp = await APIHelper.postInteraction(
+                    clothingProducts[i].id, 'LIKE');
+                if (resp['success']) {
                   _showToast("Liked ${clothingProducts[i].name}",
                       Icons.thumb_up_alt, Colors.green);
                 } else {
@@ -123,9 +123,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 }
               },
               nopeAction: () async {
-                bool resp = await APIHelper.postInteraction(
-                    clothingProducts[i].id, InteractionType.DISLIKE);
-                if (resp) {
+                Map<String, dynamic> resp = await APIHelper.postInteraction(
+                    clothingProducts[i].id, 'DISLIKE');
+                if (resp['success']) {
                   _showToast("Disliked ${clothingProducts[i].name}",
                       Icons.thumb_down_alt, Colors.red);
                 } else {
@@ -134,11 +134,10 @@ class _HomeScreenState extends State<HomeScreen> {
                 }
               },
               superlikeAction: () async {
-                bool resp = await APIHelper.postInteraction(
-                    clothingProducts[i].id, InteractionType.ADDTOCART);
-                if (resp) {
-                  await APIHelper.addToCart(clothingProducts[i].id,
-                      clothingProducts[i].variant_id!, 1);
+                Map<String, dynamic> resp = await APIHelper.postInteraction(
+                    clothingProducts[i].id, 'ADDTOCART');
+                if (resp['success']) {
+                  // await APIHelper.addToCart(clothingProducts[i].id,);
 
                   _showToast("${clothingProducts[i].name} added to Cart",
                       Icons.shopping_cart, Colors.blue);
@@ -226,7 +225,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                         child: Container(
                                         color: Colors.grey,
                                       ))
-                                    : Image.network(
+                                    : Image.asset(
                                         _swipeItems[index].content.image,
                                         fit: BoxFit.cover,
                                       ),
@@ -354,7 +353,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
                   Text(
-                    "Sling",
+                    "Swipe",
                     style: TextStyle(
                       color: appBlack,
                       fontSize: 38.0,
